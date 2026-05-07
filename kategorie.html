@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Všechna trička – Trikonoš</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo" onclick="window.location='index.html'" style="cursor:pointer">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+      <polygon points="16,3 30,28 2,28" fill="none" stroke="#F5EFE0" stroke-width="1.8"/>
+      <polygon points="16,10 26,28 6,28" fill="#2596be" opacity="0.55"/>
+      <polygon points="16,16 23,28 9,28" fill="#F5EFE0" opacity="0.35"/>
+    </svg>
+    trikonoš
+  </div>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-btn ">Domů</a>
+    <a href="kategorie.html" class="nav-btn active">Všechna trička</a>
+    <a href="vlastni-potisk.html" class="nav-btn ">Vlastní potisk</a>
+    <a href="#" class="nav-btn">O nás</a>
+  </nav>
+  <div class="header-actions">
+    <button class="btn-cart" onclick="toggleCart()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M1 1h2l2.4 7.6a1 1 0 00.96.72h5.48a1 1 0 00.96-.72L14 4H4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="6" cy="14" r="1" fill="currentColor"/>
+        <circle cx="12" cy="14" r="1" fill="currentColor"/>
+      </svg>
+      Košík
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <button class="btn-hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Domů</a>
+  <a href="kategorie.html">Všechna trička</a>
+  <a href="vlastni-potisk.html">Vlastní potisk</a>
+  <a href="#">O nás</a>
+</nav>
+
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3>🏔 Košík</h3>
+    <button class="btn-close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span>Celkem</span>
+      <span id="cart-total-price">0 Kč</span>
+    </div>
+    <p class="cart-shipping-note" id="cart-shipping-note">+ dopravné 89 Kč</p>
+    <button class="btn-checkout" onclick="saveCart();window.location='objednavka.html'">
+      Přejít k objednávce
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="btn-continue-shopping" onclick="toggleCart()">Pokračovat v nákupu</button>
+  </div>
+</aside>
+
+<div class="toast-container" id="toast-container"></div>
+
+<div class="page">
+<!-- =========================================================
+     PAGE: CATEGORY
+========================================================= -->
+
+  <div class="container">
+    <div class="category-layout">
+      <!-- FILTER SIDEBAR -->
+      <aside class="filter-sidebar">
+        <h3>Filtrovat</h3>
+        <div class="filter-group">
+          <div class="filter-group-title">Kategorie</div>
+          <div class="filter-option checked" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Všechna trička</span>
+            <span class="filter-count">58</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Hory & příroda</span>
+            <span class="filter-count">14</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Vtipná</span>
+            <span class="filter-count">22</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Moudrá</span>
+            <span class="filter-count">8</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Bitcoin</span>
+            <span class="filter-count">6</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Párová</span>
+            <span class="filter-count">5</span>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Velikost</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <button class="size-btn" onclick="toggleSize(this)">XS</button>
+            <button class="size-btn active" onclick="toggleSize(this)">S</button>
+            <button class="size-btn active" onclick="toggleSize(this)">M</button>
+            <button class="size-btn active" onclick="toggleSize(this)">L</button>
+            <button class="size-btn" onclick="toggleSize(this)">XL</button>
+            <button class="size-btn" onclick="toggleSize(this)">XXL</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Cena</div>
+          <div class="price-range">
+            <input type="range" min="300" max="600" value="500" id="price-slider" oninput="updatePrice(this.value)">
+            <div class="price-range-labels">
+              <span>300 Kč</span>
+              <span id="price-val">500 Kč</span>
+            </div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Pohlaví</div>
+          <div class="filter-option checked" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Unisex</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Dámská</span>
+          </div>
+          <div class="filter-option" onclick="toggleFilter(this)">
+            <div class="filter-checkbox"></div>
+            <span>Dětská</span>
+          </div>
+        </div>
+      </aside>
+      <!-- PRODUCT LIST -->
+      <div>
+        <div class="category-header">
+          <div>
+            <h2>Všechna trička</h2>
+            <div class="results-count">58 produktů</div>
+          </div>
+          <select class="sort-select">
+            <option>Nejoblíbenější</option>
+            <option>Nejnověji přidané</option>
+            <option>Cena: od nejnižší</option>
+            <option>Cena: od nejvyšší</option>
+          </select>
+        </div>
+        <div class="product-grid" id="category-grid"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+
+renderCategoryGrid();
+document.querySelector('.sort-select').addEventListener('change', function() {
+  showToast('Řazení: ' + this.value, '↕');
+});
+
+</script>
+</body>
+</html>

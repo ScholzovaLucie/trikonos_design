@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objednávka – Trikonoš</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo" onclick="window.location='index.html'" style="cursor:pointer">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+      <polygon points="16,3 30,28 2,28" fill="none" stroke="#F5EFE0" stroke-width="1.8"/>
+      <polygon points="16,10 26,28 6,28" fill="#2596be" opacity="0.55"/>
+      <polygon points="16,16 23,28 9,28" fill="#F5EFE0" opacity="0.35"/>
+    </svg>
+    trikonoš
+  </div>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-btn ">Domů</a>
+    <a href="kategorie.html" class="nav-btn ">Všechna trička</a>
+    <a href="vlastni-potisk.html" class="nav-btn ">Vlastní potisk</a>
+    <a href="#" class="nav-btn">O nás</a>
+  </nav>
+  <div class="header-actions">
+    <button class="btn-cart" onclick="toggleCart()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M1 1h2l2.4 7.6a1 1 0 00.96.72h5.48a1 1 0 00.96-.72L14 4H4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="6" cy="14" r="1" fill="currentColor"/>
+        <circle cx="12" cy="14" r="1" fill="currentColor"/>
+      </svg>
+      Košík
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <button class="btn-hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Domů</a>
+  <a href="kategorie.html">Všechna trička</a>
+  <a href="vlastni-potisk.html">Vlastní potisk</a>
+  <a href="#">O nás</a>
+</nav>
+
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3>🏔 Košík</h3>
+    <button class="btn-close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span>Celkem</span>
+      <span id="cart-total-price">0 Kč</span>
+    </div>
+    <p class="cart-shipping-note" id="cart-shipping-note">+ dopravné 89 Kč</p>
+    <button class="btn-checkout" onclick="saveCart();window.location='objednavka.html'">
+      Přejít k objednávce
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="btn-continue-shopping" onclick="toggleCart()">Pokračovat v nákupu</button>
+  </div>
+</aside>
+
+<div class="toast-container" id="toast-container"></div>
+
+<div class="page">
+<!-- =========================================================
+     PAGE: CHECKOUT
+========================================================= -->
+
+  <div class="container">
+    <div style="padding:32px 0 16px">
+      <h1 style="font-family:var(--font-display);font-size:32px;font-weight:700">Objednávka</h1>
+    </div>
+    <div class="checkout-layout">
+      <div>
+        <!-- KONTAKT -->
+        <div class="checkout-section">
+          <h3>
+            <div class="checkout-step-num">1</div>
+            Kontaktní údaje
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Jméno</label>
+              <input class="form-input" type="text" placeholder="Jan">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Příjmení</label>
+              <input class="form-input" type="text" placeholder="Novák">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input class="form-input" type="email" placeholder="jan@email.cz">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon</label>
+            <input class="form-input" type="tel" placeholder="+420 777 000 000">
+          </div>
+        </div>
+        <!-- DODÁNÍ -->
+        <div class="checkout-section">
+          <h3>
+            <div class="checkout-step-num">2</div>
+            Způsob dodání
+          </h3>
+          <div class="checkout-methods">
+            <button class="method-btn active" onclick="selectMethod(this)">
+              <div class="method-btn-icon">📦</div>
+              <div class="method-btn-text">
+                <h5>Zásilkovna</h5>
+                <p>79 Kč · 1–3 dny</p>
+              </div>
+            </button>
+            <button class="method-btn" onclick="selectMethod(this)">
+              <div class="method-btn-icon">🚚</div>
+              <div class="method-btn-text">
+                <h5>PPL domů</h5>
+                <p>89 Kč · 2–4 dny</p>
+              </div>
+            </button>
+            <button class="method-btn" onclick="selectMethod(this)">
+              <div class="method-btn-icon">📮</div>
+              <div class="method-btn-text">
+                <h5>Česká pošta</h5>
+                <p>95 Kč · 3–5 dnů</p>
+              </div>
+            </button>
+            <button class="method-btn" onclick="selectMethod(this)">
+              <div class="method-btn-icon">🆓</div>
+              <div class="method-btn-text">
+                <h5>Zdarma od 2 ks</h5>
+                <p>0 Kč při platbě předem</p>
+              </div>
+            </button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Adresa</label>
+            <input class="form-input" type="text" placeholder="Ulice a číslo popisné">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Město</label>
+              <input class="form-input" type="text" placeholder="Praha">
+            </div>
+            <div class="form-group">
+              <label class="form-label">PSČ</label>
+              <input class="form-input" type="text" placeholder="110 00">
+            </div>
+          </div>
+        </div>
+        <!-- PLATBA -->
+        <div class="checkout-section">
+          <h3>
+            <div class="checkout-step-num">3</div>
+            Způsob platby
+          </h3>
+          <div class="checkout-methods">
+            <button class="method-btn active" onclick="selectMethod(this)">
+              <div class="method-btn-icon">🏦</div>
+              <div class="method-btn-text">
+                <h5>Platební karta</h5>
+                <p>Okamžitá platba</p>
+              </div>
+            </button>
+            <button class="method-btn" onclick="selectMethod(this)">
+              <div class="method-btn-icon">🏧</div>
+              <div class="method-btn-text">
+                <h5>Bankovní převod</h5>
+                <p>Doprava zdarma</p>
+              </div>
+            </button>
+            <button class="method-btn" onclick="selectMethod(this)">
+              <div class="method-btn-icon">💰</div>
+              <div class="method-btn-text">
+                <h5>Dobírka</h5>
+                <p>+30 Kč</p>
+              </div>
+            </button>
+            <button class="method-btn" onclick="selectMethod(this)">
+              <div class="method-btn-icon">📱</div>
+              <div class="method-btn-text">
+                <h5>Apple / Google Pay</h5>
+                <p>Rychlá platba</p>
+              </div>
+            </button>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;padding:16px;font-size:16px" onclick="showToast('Objednávka odeslána! Brzy se ozveme. 🎉','✅')">
+          Dokončit objednávku
+        </button>
+      </div>
+      <!-- ORDER SUMMARY -->
+      <div class="order-summary">
+        <h3>Přehled objednávky</h3>
+        <div id="checkout-items"></div>
+        <div class="coupon-input">
+          <input type="text" placeholder="Slevový kód">
+          <button onclick="showToast('Kód nebyl nalezen','❌')">Použít</button>
+        </div>
+        <div class="order-totals">
+          <div class="order-total-row">
+            <span>Zboží</span>
+            <span id="co-subtotal">0 Kč</span>
+          </div>
+          <div class="order-total-row">
+            <span>Doprava</span>
+            <span id="co-shipping">89 Kč</span>
+          </div>
+          <div class="order-total-row total">
+            <span>Celkem</span>
+            <span id="co-total">89 Kč</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+
+renderCheckout();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vlastní potisk – Trikonoš</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo" onclick="window.location='index.html'" style="cursor:pointer">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+      <polygon points="16,3 30,28 2,28" fill="none" stroke="#F5EFE0" stroke-width="1.8"/>
+      <polygon points="16,10 26,28 6,28" fill="#2596be" opacity="0.55"/>
+      <polygon points="16,16 23,28 9,28" fill="#F5EFE0" opacity="0.35"/>
+    </svg>
+    trikonoš
+  </div>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-btn ">Domů</a>
+    <a href="kategorie.html" class="nav-btn ">Všechna trička</a>
+    <a href="vlastni-potisk.html" class="nav-btn active">Vlastní potisk</a>
+    <a href="#" class="nav-btn">O nás</a>
+  </nav>
+  <div class="header-actions">
+    <button class="btn-cart" onclick="toggleCart()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M1 1h2l2.4 7.6a1 1 0 00.96.72h5.48a1 1 0 00.96-.72L14 4H4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="6" cy="14" r="1" fill="currentColor"/>
+        <circle cx="12" cy="14" r="1" fill="currentColor"/>
+      </svg>
+      Košík
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <button class="btn-hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Domů</a>
+  <a href="kategorie.html">Všechna trička</a>
+  <a href="vlastni-potisk.html">Vlastní potisk</a>
+  <a href="#">O nás</a>
+</nav>
+
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3>🏔 Košík</h3>
+    <button class="btn-close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal">
+      <span>Celkem</span>
+      <span id="cart-total-price">0 Kč</span>
+    </div>
+    <p class="cart-shipping-note" id="cart-shipping-note">+ dopravné 89 Kč</p>
+    <button class="btn-checkout" onclick="saveCart();window.location='objednavka.html'">
+      Přejít k objednávce
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="btn-continue-shopping" onclick="toggleCart()">Pokračovat v nákupu</button>
+  </div>
+</aside>
+
+<div class="toast-container" id="toast-container"></div>
+
+<div class="page">
+<!-- =========================================================
+     PAGE: CUSTOM PRINT
+========================================================= -->
+
+  <div class="potisk-hero">
+    <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;height:120px" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,120 0,70 200,20 380,65 600,5 800,55 1050,15 1260,60 1440,25 1440,120" fill="rgba(37,150,190,0.10)"/>
+    </svg>
+    <div class="container" style="position:relative;z-index:1">
+      <div class="hero-eyebrow" style="margin:0 auto 20px;width:fit-content">
+        <div class="hero-eyebrow-dot"></div>
+        vlastní tvorba
+      </div>
+      <h1>Vlastní potisk</h1>
+      <p>Tvůj motiv, tvoje triko. Dodej nám soubor a my zařídíme zbytek.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h4>Vyber triko</h4>
+        <p>Náš katalog bavlněných triček v různých barvách a střizích — unisex, dámské, dětské.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h4>Nahraj motiv</h4>
+        <p>Přijmeme PNG, SVG nebo AI soubor. Minimální rozlišení 300 DPI pro nejlepší výsledek.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h4>Schválíš náhled</h4>
+        <p>Pošleme ti digitální náhled před tiskem. Pak teprve vyrábíme.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h4>Expedujeme</h4>
+        <p>Z Krkonoš přímo k tobě. Standardně do 5–7 pracovních dnů od schválení.</p>
+      </div>
+    </div>
+
+    <div class="potisk-form-card">
+      <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:24px">Poptávkový formulář</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Jméno</label>
+          <input class="form-input" type="text" placeholder="Jan Novák">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input class="form-input" type="email" placeholder="jan@email.cz">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Barva trička</label>
+          <select class="form-select">
+            <option>Bílá</option>
+            <option>Černá</option>
+            <option>Tmavě šedá</option>
+            <option>Lesní zelená</option>
+            <option>Kaštanová</option>
+            <option>Námořnická</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Počet kusů</label>
+          <input class="form-input" type="number" placeholder="1" min="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Popis motivu / poznámka</label>
+        <textarea class="form-textarea" placeholder="Popište co chcete na triku — text, barvy, umístění potisku..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nahrajte soubor (PNG, SVG, AI)</label>
+        <div class="upload-area" onclick="showToast('Nahrávání souboru','📁')">
+          <div class="upload-icon">📁</div>
+          <p>Přetáhněte soubor sem nebo klikněte pro výběr</p>
+          <p style="font-size:11px;margin-top:4px">Max. 20 MB · PNG, SVG, AI, PDF</p>
+        </div>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="showToast('Poptávka odeslána! Ozveme se do 24 h.','✅')">
+        Odeslat poptávku
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+
+</script>
+</body>
+</html>
